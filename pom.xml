@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.denise</groupId>
-    <artifactId>DeniseJavaTools</artifactId>
+    <artifactId>denise-java-tools</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -16,14 +16,20 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.12.2</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/deniseS85/DeniseJavaTools</url>
+        </repository>
+    </distributionManagement>
 
 </project>
