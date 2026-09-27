@@ -3,50 +3,50 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public class ConsoleTable {
-    public static void print(List<?> liste) {
+    public static void print(List<?> list) {
         // Prüfen, ob die Liste leer ist
-        if (liste == null || liste.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             System.out.println("Keine Daten vorhanden.");
             return;
         }
 
         // Erstes Objekt aus der Liste holen Object
-        Object erstesObjekt = liste.getFirst();
+        Object firstObject = list.get(0);
 
         // Klasse des Objekts herausfinden
-        Class<?> klasse = erstesObjekt.getClass();
+        Class<?> firstObjectClass = firstObject.getClass();
 
         // Alle Felder der Klasse herausfinden
-        Field[] felder = klasse.getDeclaredFields();
+        Field[] fields = firstObjectClass.getDeclaredFields();
 
         // Breite jeder Spalte
-        int[] breiten = new int[felder.length];
+        int[] widths = new int[fields.length];
 
         // ------------------------------------------------
-        // 1. Breite anhand der Überschriften bestimmen
+        // Breite anhand der Überschriften bestimmen
         // ------------------------------------------------
-        for (int i = 0; i < felder.length; i++) {
-            breiten[i] = felder[i].getName().length();
+        for (int i = 0; i < fields.length; i++) {
+            widths[i] = fields[i].getName().length();
         }
 
         // ------------------------------------------------
-        // 2. Breite anhand der Werte bestimmen
+        // Breite anhand der Werte bestimmen
         // ------------------------------------------------
-        for (Object element : liste) {
-            for (int i = 0; i < felder.length; i++) {
+        for (Object element : list) {
+            for (int i = 0; i < fields.length; i++) {
                 try {
                     // Zugriff auf private Felder erlauben
-                    felder[i].setAccessible(true);
+                    fields[i].setAccessible(true);
 
                     // Wert des Feldes auslesen Object
-                    Object wert = felder[i].get(element);
+                    Object value = fields[i].get(element);
 
                     // Wert in String umwandeln
-                    String text = String.valueOf(wert);
+                    String text = String.valueOf(value);
 
                     // Prüfen, ob der Wert länger ist
-                    if (text.length() > breiten[i]) {
-                        breiten[i] = text.length();
+                    if (text.length() > widths[i]) {
+                        widths[i] = text.length();
                     }
                 } catch (IllegalAccessException e) {
                     System.out.println("Feld konnte nicht gelesen werden.");
@@ -54,46 +54,40 @@ public class ConsoleTable {
             }
         }
 
-        // ------------------------------------------------
-        // 3. Obere Linie
-        // ------------------------------------------------
-        obereLinie(breiten);
+        topLine(widths);
 
         // ------------------------------------------------
-        // 4. Überschriften
+        // Überschriften
         // ------------------------------------------------
         System.out.print("│");
 
-        for (int i = 0; i < felder.length; i++) {
+        for (int i = 0; i < fields.length; i++) {
             System.out.printf(
-                    " %-" + breiten[i] + "s │",
-                    felder[i].getName()
+                    " %-" + widths[i] + "s │",
+                    fields[i].getName()
             );
         }
 
         System.out.println();
 
-        // ------------------------------------------------
-        // 5. Mittlere Linie
-        // ------------------------------------------------
-        mittlereLinie(breiten);
+        middleLine(widths);
 
         // ------------------------------------------------
-        // 6. Daten ausgeben
+        // Daten ausgeben
         // ------------------------------------------------
-        for (Object element : liste) {
+        for (Object element : list) {
             System.out.print("│");
 
-            for (int i = 0; i < felder.length; i++) {
+            for (int i = 0; i < fields.length; i++) {
                 try {
-                    Object wert = felder[i].get(element);
+                    Object value = fields[i].get(element);
                     System.out.printf(
-                            " %-" + breiten[i] + "s │",
-                            String.valueOf(wert)
+                            " %-" + widths[i] + "s │",
+                            String.valueOf(value)
                     );
                 } catch (IllegalAccessException e) {
                     System.out.printf(
-                            " %-" + breiten[i] + "s │",
+                            " %-" + widths[i] + "s │",
                             "Fehler"
                     );
                 }
@@ -101,24 +95,18 @@ public class ConsoleTable {
 
             System.out.println(); }
 
-        // ------------------------------------------------
-        // 7. Untere Linie
-        // ------------------------------------------------
-        untereLinie(breiten);
+        bottomLine(widths);
     }
 
-    // ====================================================
-    // Obere Linie
-    // ====================================================
-    private static void obereLinie(int[] breiten) {
+    private static void topLine(int[] widths) {
         System.out.print("┌");
 
-        for (int i = 0; i < breiten.length; i++) {
-            for (int j = 0; j < breiten[i] + 2; j++) {
+        for (int i = 0; i < widths.length; i++) {
+            for (int j = 0; j < widths[i] + 2; j++) {
                 System.out.print("─");
             }
 
-            if (i < breiten.length - 1) {
+            if (i < widths.length - 1) {
                 System.out.print("┬");
             }
         }
@@ -126,18 +114,15 @@ public class ConsoleTable {
         System.out.println("┐");
     }
 
-    // ====================================================
-    // Mittlere Linie
-    // ====================================================
-    private static void mittlereLinie(int[] breiten) {
+    private static void middleLine(int[] widths) {
         System.out.print("├");
 
-        for (int i = 0; i < breiten.length; i++) {
-            for (int j = 0; j < breiten[i] + 2; j++) {
+        for (int i = 0; i < widths.length; i++) {
+            for (int j = 0; j < widths[i] + 2; j++) {
                 System.out.print("─");
             }
 
-            if (i < breiten.length - 1) {
+            if (i < widths.length - 1) {
                 System.out.print("┼");
             }
         }
@@ -145,18 +130,15 @@ public class ConsoleTable {
         System.out.println("┤");
     }
 
-    // ====================================================
-    // Untere Linie
-    // ====================================================
-    private static void untereLinie(int[] breiten) {
+    private static void bottomLine(int[] widths) {
         System.out.print("└");
 
-        for (int i = 0; i < breiten.length; i++) {
-            for (int j = 0; j < breiten[i] + 2; j++) {
+        for (int i = 0; i < widths.length; i++) {
+            for (int j = 0; j < widths[i] + 2; j++) {
                 System.out.print("─");
             }
 
-            if (i < breiten.length - 1) {
+            if (i < widths.length - 1) {
                 System.out.print("┴");
             }
         }

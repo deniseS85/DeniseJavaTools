@@ -13,15 +13,15 @@ public class ConsoleTableTest {
     // TEST 1: Normale Liste
     // ==================================================
     @Test
-    void testNormaleListe() {
+    void testNormalList() {
 
-        List<Person> personen = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
 
-        personen.add(new Person("Denise", 40, "Münster"));
-        personen.add(new Person("Anna", 32, "Köln"));
-        personen.add(new Person("Peter", 45, "Berlin"));
+        persons.add(new Person("Denise", 40, "Münster"));
+        persons.add(new Person("Anna", 32, "Köln"));
+        persons.add(new Person("Peter", 45, "Berlin"));
 
-        assertDoesNotThrow(() -> ConsoleTable.print(personen));
+        assertDoesNotThrow(() -> ConsoleTable.print(persons));
     }
 
 
@@ -29,15 +29,15 @@ public class ConsoleTableTest {
     // TEST 2: Unterschiedlich lange Werte
     // ==================================================
     @Test
-    void testUnterschiedlicheLaengen() {
+    void testDifferentLengths() {
 
-        List<Person> personen = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
 
-        personen.add(new Person("Denise", 40, "Münster"));
-        personen.add(new Person("Alexander", 123, "Frankfurt am Main"));
-        personen.add(new Person("Tom", 7, "Köln"));
+        persons.add(new Person("Denise", 40, "Münster"));
+        persons.add(new Person("Alexander", 123, "Frankfurt am Main"));
+        persons.add(new Person("Tom", 7, "Köln"));
 
-        assertDoesNotThrow(() -> ConsoleTable.print(personen));
+        assertDoesNotThrow(() -> ConsoleTable.print(persons));
     }
 
 
@@ -45,13 +45,13 @@ public class ConsoleTableTest {
     // TEST 3: Nur ein Objekt
     // ==================================================
     @Test
-    void testEinObjekt() {
+    void testOneObject() {
 
-        List<Person> personen = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
 
-        personen.add(new Person("Denise", 40, "Münster"));
+        persons.add(new Person("Denise", 40, "Münster"));
 
-        assertDoesNotThrow(() -> ConsoleTable.print(personen));
+        assertDoesNotThrow(() -> ConsoleTable.print(persons));
     }
 
 
@@ -59,11 +59,11 @@ public class ConsoleTableTest {
     // TEST 4: Leere Liste
     // ==================================================
     @Test
-    void testLeereListe() {
+    void testEmptyList() {
 
-        List<Person> personen = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
 
-        assertDoesNotThrow(() -> ConsoleTable.print(personen));
+        assertDoesNotThrow(() -> ConsoleTable.print(persons));
     }
 
 
@@ -81,25 +81,25 @@ public class ConsoleTableTest {
     // TEST 6: Unterschiedliche Datentypen
     // ==================================================
     @Test
-    void testUnterschiedlicheDatentypen() {
+    void testDifferentDataTypes() {
 
-        List<TestDaten> daten = new ArrayList<>();
+        List<TestData> data = new ArrayList<>();
 
-        daten.add(new TestDaten(
+        data.add(new TestData(
                 "Denise",
                 40,
                 1.75,
                 true
         ));
 
-        daten.add(new TestDaten(
+        data.add(new TestData(
                 "Anna",
                 32,
                 1.68,
                 false
         ));
 
-        assertDoesNotThrow(() -> ConsoleTable.print(daten));
+        assertDoesNotThrow(() -> ConsoleTable.print(data));
     }
 
 
@@ -107,15 +107,15 @@ public class ConsoleTableTest {
     // TEST 7: Andere Klasse
     // ==================================================
     @Test
-    void testAndereKlasse() {
+    void testOtherClass() {
 
-        List<Auto> autos = new ArrayList<>();
+        List<Car> cars = new ArrayList<>();
 
-        autos.add(new Auto("BMW", "320", 2020));
-        autos.add(new Auto("Audi", "A4", 2022));
-        autos.add(new Auto("VW", "Golf", 2021));
+        cars.add(new Car("BMW", "320", 2020));
+        cars.add(new Car("Audi", "A4", 2022));
+        cars.add(new Car("VW", "Golf", 2021));
 
-        assertDoesNotThrow(() -> ConsoleTable.print(autos));
+        assertDoesNotThrow(() -> ConsoleTable.print(cars));
     }
 
 
@@ -125,13 +125,13 @@ public class ConsoleTableTest {
     static class Person {
 
         private String name;
-        private int alter;
-        private String ort;
+        private int age;
+        private String place;
 
-        public Person(String name, int alter, String ort) {
+        public Person(String name, int age, String place) {
             this.name = name;
-            this.alter = alter;
-            this.ort = ort;
+            this.age = age;
+            this.place = place;
         }
     }
 
@@ -139,23 +139,23 @@ public class ConsoleTableTest {
     // ==================================================
     // Testklasse für verschiedene Datentypen
     // ==================================================
-    static class TestDaten {
+    static class TestData {
 
         private String name;
-        private int alter;
-        private double groesse;
-        private boolean aktiv;
+        private int age;
+        private double tall;
+        private boolean active;
 
-        public TestDaten(
+        public TestData(
                 String name,
-                int alter,
-                double groesse,
-                boolean aktiv) {
+                int age,
+                double tall,
+                boolean active) {
 
             this.name = name;
-            this.alter = alter;
-            this.groesse = groesse;
-            this.aktiv = aktiv;
+            this.age = age;
+            this.tall = tall;
+            this.active = active;
         }
     }
 
@@ -163,36 +163,36 @@ public class ConsoleTableTest {
     // ==================================================
     // Komplette andere Klasse
     // ==================================================
-    static class Auto {
+    static class Car {
 
-        private String marke;
-        private String modell;
-        private int baujahr;
+        private String brand;
+        private String model;
+        private int year;
 
-        public Auto(String marke, String modell, int baujahr) {
-            this.marke = marke;
-            this.modell = modell;
-            this.baujahr = baujahr;
+        public Car(String brand, String model, int year) {
+            this.brand = brand;
+            this.model = model;
+            this.year = year;
         }
     }
 
     @Test
-    void testAusgabe() {
+    void testOutput() {
 
         // Konsolenausgabe abfangen
-        ByteArrayOutputStream ausgabe = new ByteArrayOutputStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
 
-        System.setOut(new PrintStream(ausgabe));
+        System.setOut(new PrintStream(output));
 
         try {
 
-            List<Person> personen = new ArrayList<>();
+            List<Person> persons = new ArrayList<>();
 
-            personen.add(new Person("Denise", 40, "Münster"));
-            personen.add(new Person("Anna", 32, "Köln"));
+            persons.add(new Person("Denise", 40, "Münster"));
+            persons.add(new Person("Anna", 32, "Köln"));
 
-            ConsoleTable.print(personen);
+            ConsoleTable.print(persons);
 
         } finally {
 
@@ -200,15 +200,15 @@ public class ConsoleTableTest {
             System.setOut(originalOut);
         }
 
-        String ergebnis = ausgabe.toString();
+        String result = output.toString();
 
-        assertTrue(ergebnis.contains("name"));
-        assertTrue(ergebnis.contains("alter"));
-        assertTrue(ergebnis.contains("ort"));
+        assertTrue(result.contains("name"));
+        assertTrue(result.contains("age"));
+        assertTrue(result.contains("place"));
 
-        assertTrue(ergebnis.contains("Denise"));
-        assertTrue(ergebnis.contains("Münster"));
-        assertTrue(ergebnis.contains("Anna"));
-        assertTrue(ergebnis.contains("Köln"));
+        assertTrue(result.contains("Denise"));
+        assertTrue(result.contains("Münster"));
+        assertTrue(result.contains("Anna"));
+        assertTrue(result.contains("Köln"));
     }
 }
