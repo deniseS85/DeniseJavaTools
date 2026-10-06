@@ -81,10 +81,23 @@ public class ConsoleTable {
             for (int i = 0; i < fields.length; i++) {
                 try {
                     Object value = fields[i].get(element);
-                    System.out.printf(
-                            " %-" + widths[i] + "s │",
-                            String.valueOf(value)
-                    );
+
+                    /*
+                     * Zahlen werden rechtsbündig ausgegeben.
+                     * Texte und boolean-Werte bleiben linksbündig.
+                     */
+                    if (value instanceof Number) {
+                        System.out.printf(
+                                " %" + widths[i] + "s │",
+                                String.valueOf(value)
+                        );
+                    } else {
+                        System.out.printf(
+                                " %-" + widths[i] + "s │",
+                                String.valueOf(value)
+                        );
+                    }
+
                 } catch (IllegalAccessException e) {
                     System.out.printf(
                             " %-" + widths[i] + "s │",
