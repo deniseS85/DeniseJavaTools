@@ -182,6 +182,35 @@ public class ConsoleTableTest {
         assertTrue(secondLine == firstLine + 1);
     }
 
+    // ==================================================
+    // TEST 9: Prüft die Ausgabe einer SQL-Ergebnistabelle
+    // ==================================================
+    @Test
+    void testSqlTable() {
+
+        String[] columns = {
+                "id",
+                "filename",
+                "filesize"
+        };
+
+        List<String[]> rows = new ArrayList<>();
+
+        rows.add(new String[]{
+                "1",
+                "person1.json",
+                "615"
+        });
+
+        rows.add(new String[]{
+                "2",
+                "person.json",
+                "459"
+        });
+
+        assertDoesNotThrow(() -> ConsoleTable.print(columns, rows));
+    }
+
 
     // ==================================================
     // Testklasse Person
