@@ -118,6 +118,70 @@ public class ConsoleTableTest {
         assertDoesNotThrow(() -> ConsoleTable.print(cars));
     }
 
+    // ==================================================
+    // TEST 8: Mehrzeiliger Wert
+    // ==================================================
+    @Test
+    void testMultilineCell() {
+
+        // Konsolenausgabe abfangen
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+
+        System.setOut(new PrintStream(output));
+
+        try {
+
+            List<MultiLineData> data = new ArrayList<>();
+
+            data.add(new MultiLineData(
+                    1,
+                    "Erste Zeile\nZweite Zeile"
+            ));
+
+            ConsoleTable.print(data);
+
+        } finally {
+
+            // Normale Konsole wiederherstellen
+            System.setOut(originalOut);
+        }
+
+        String result = output.toString();
+
+        // Abgefangene Tabelle wieder in der Konsole anzeigen
+        System.out.println(result);
+
+        // Prüfen, ob beide Texte ausgegeben wurden
+        assertTrue(result.contains("Erste Zeile"));
+        assertTrue(result.contains("Zweite Zeile"));
+
+        // Ausgabe in einzelne Zeilen aufteilen
+        String[] lines = result.split("\\R");
+
+        int firstLine = -1;
+        int secondLine = -1;
+
+        // Die beiden Texte in der Ausgabe suchen
+        for (int i = 0; i < lines.length; i++) {
+
+            if (lines[i].contains("Erste Zeile")) {
+                firstLine = i;
+            }
+
+            if (lines[i].contains("Zweite Zeile")) {
+                secondLine = i;
+            }
+        }
+
+        // Beide Zeilen müssen vorhanden sein
+        assertTrue(firstLine >= 0);
+        assertTrue(secondLine >= 0);
+
+        // Die zweite Zeile muss direkt unter der ersten stehen
+        assertTrue(secondLine == firstLine + 1);
+    }
+
 
     // ==================================================
     // Testklasse Person
@@ -175,6 +239,20 @@ public class ConsoleTableTest {
             this.year = year;
         }
     }
+
+    // ==================================================
+    // Testklasse für mehrzeilige Werte
+    // ==================================================
+        static class MultiLineData {
+
+            private int id;
+            private String text;
+
+            public MultiLineData(int id, String text) {
+                this.id = id;
+                this.text = text;
+            }
+        }
 
     @Test
     void testOutput() {
